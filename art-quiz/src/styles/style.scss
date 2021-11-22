@@ -383,10 +383,16 @@ body {
 .fixed-overlay-falls {
     left: 5000px
 }
+
+.fixed-overlay-result {
+    left: 0;
+    top: -5000px;
+}
   
 .fixed-overlay-active {
     visibility: visible;
     left: 0;
+    top: 0;
     transition: 1s;
 }
   
@@ -398,19 +404,74 @@ body {
 }
   
 .modal_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 400px;
     height: 500px;
     padding: 20px;
     background-color: #fff;
     color: #000;
     border-radius: 20%;
-    opacity: 80%;
+}
+
+.result {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.t {
+    color: green;
+}
+.f {
+    color: red;
+}
+
+.true-author {
+    margin-top: 20px;
+}
+
+.result-img {
+    width: 100px;
+    height: 100px;
+    background-image: url(../assets/svg/result.svg);
+    background-size: contain;
+}
+
+.continue {
+    width: 50%;
+    height: 40px;
+    margin-top: 20px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+}
+
+.result-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 // Тестовый контент внутри модалки
-.test {
-    margin-left: 30%;
-    font-size: 30px;
-    margin-top: 200px;
+
+.true-painting-conteiner {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    background-size: contain;
+}
+
+.modal-text {
+    font-weight: bold;
+}
+
+.result-text {
+    margin-top: 80px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    font-weight: bold;
 }
 
 //общие стили. Называются туповато.

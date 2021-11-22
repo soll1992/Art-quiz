@@ -50,6 +50,7 @@ let volumeValue = 50;
 let muted = false;
 let time = 20;
 let n = 0;
+let numberOfTrueAnswers = 0;
 let timerOption = true;
 let trueAns;
 
@@ -75,6 +76,18 @@ function playFallseSound() {
     fallsAudio.muted = false;
   }
   fallsAudio.play();
+}
+
+function playResultSound() {
+  const resultAudio = new Audio();
+  resultAudio.src = "./assets/sound/result.mp3";
+  resultAudio.volume = volumeValue / 100;
+  if (muted) {
+    resultAudio.muted = true;
+  } else {
+    resultAudio.muted = false;
+  }
+  resultAudio.play();
 }
 
 function startTimer(duration) {
@@ -199,34 +212,63 @@ const router = async () => {
         item.addEventListener("click", (e) => {
           const modalTrue = document.querySelector(".fixed-overlay-true");
           const modalFalls = document.querySelector(".fixed-overlay-falls");
-          const modalResult = document.querySelector(".fixed-overlay-result");
+
+          const trueImg = document.querySelectorAll(".true-painting-conteiner");
+          const trueAuthor = document.querySelectorAll(".true-author");
+          const trueYear = document.querySelectorAll(".true-year");
+          const trueName = document.querySelectorAll(".true-name");
+
           trueAns = currentArr[n].author;
           console.log(trueAns);
           answer.classList.remove("answer-active");
-          if (e.target.textContent == trueAns && n != 9) {
+          if (e.target.textContent == trueAns) {
             modalTrue.classList.add("fixed-overlay-active");
             playTrueSound();
-          } else if (e.target.textContent != trueAns && n != 9) {
+            numberOfTrueAnswers++;
+            console.log(numberOfTrueAnswers);
+          } else if (e.target.textContent != trueAns) {
             modalFalls.classList.add("fixed-overlay-active");
             playFallseSound();
-          } else {
-            modalResult.classList.add("fixed-overlay-active");
-            n = 0;
-            playTrueSound();
           }
+          trueAuthor.forEach((item) => {
+            item.textContent = currentArr[n].author;
+          });
+          trueYear.forEach((item) => {
+            item.textContent = currentArr[n].year;
+          });
+          trueName.forEach((item) => {
+            item.textContent = currentArr[n].name;
+          });
+          trueImg.forEach(
+            (item) =>
+              (item.style.backgroundImage = `url('https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${currentArr[n].imageNum}.webp')`)
+          );
         })
     );
     nextButton.forEach((item) =>
       item.addEventListener("click", function () {
         const modalTrue = document.querySelector(".fixed-overlay-true");
         const modalFalls = document.querySelector(".fixed-overlay-falls");
-        n++;
-        modalTrue.classList.remove("fixed-overlay-active");
-        modalFalls.classList.remove("fixed-overlay-active");
-        answer.classList.add("answer-active");
-        page.wrap(currentArr, n);
-        if (timerOption) {
-          startTimer(time);
+        const modalResult = document.querySelector(".fixed-overlay-result");
+        const test = document.querySelector(".test");
+
+        if (n != 9) {
+          n++;
+          modalTrue.classList.remove("fixed-overlay-active");
+          modalFalls.classList.remove("fixed-overlay-active");
+          answer.classList.add("answer-active");
+          page.wrap(currentArr, n);
+          if (timerOption) {
+            startTimer(time);
+          }
+        } else {
+          modalTrue.classList.remove("fixed-overlay-active");
+          modalFalls.classList.remove("fixed-overlay-active");
+          modalResult.classList.add("fixed-overlay-active");
+          n = 0;
+          playResultSound();
+          test.textContent = `Result: ${numberOfTrueAnswers}/10`;
+          numberOfTrueAnswers = 0;
         }
       })
     );
