@@ -1,73 +1,131 @@
+const fs = require('fs');
 const path = require('path');
-
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
-const nothing = () => {};
+const htmlFile = /^([-_\d\w]+).html$/i;
+const srcPath = path.resolve(__dirname, 'src');
 
-module.exports = (env, options) => {
-  const isProduction = options.mode === 'production';
-  const isAnalyze = env.analyze;
+const devServer = (isDev) => !isDev ? {} : {
+  devServer: {
+    open: true,
+    port: 'auto',
+    static: {
+      directory: srcPath,
+      watch: true,
+    },
+  },
+};
 
+const getRelative = (absolutePath) => path.relative(srcPath, absolutePath);
+const makePath = (relativePath) => './' + relativePath.replace(/\\+/g, '/');
+
+const getPages = (dir, n) => {
+  const dirContent = fs.readdirSync(dir);
+  const pages = dirContent
+    .filter(f => htmlFile.test(f))
+    .reduce((res, f, i) => {
+      const name = path.basename(f, path.extname(f));
+      res.push({
+        name: `p${n += i}`,
+        dir: getRelative(dir),
+        html: makePath(getRelative(path.join(dir, f))),
+        script: dirContent.find(f => new RegExp(`^${name}\.js$`, 'i').test(f)),
+        style: dirContent.find(f => new RegExp(`^${name}\.s(c|a)ss$`, 'i').test(f)),
+      });
+      return res;
+    }, [])
+    .concat(dirContent
+      .filter(f => fs.lstatSync(path.resolve(dir, f)).isDirectory())
+      .reduce((res, f) => [...res, ...getPages(path.resolve(dir, f), n + 1)], [])
+    );
+
+  return pages;
+};
+
+const getEntryPoints = (pages) => pages.reduce((entry, {name, dir, script, style}) => Object.assign(entry,
+  script ? { [name]: makePath(path.join(dir, script)) } : {},
+  style ? { [`${name}-styles`]: makePath(path.join(dir, style)) } : {},
+), {});
+
+const getHtmlPlugins = (pages) => pages.map(({html, name, script, style}) => new HtmlWebpackPlugin({
+  template: './index.html',
+  filename: html,
+  chunks: [ script ? name : null, style ? `${name}-styles` : null ].filter(c => !!c),
+}));
+
+module.exports = ({ development }) => {
+  const pages = getPages(srcPath, 1);
   return {
-    mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? 'source-map' : 'eval',
-    entry: ['@babel/polyfill', './src/index.js'],
+    mode: development ? 'development' : 'production',
+    devtool: development ? 'inline-source-map' : false,
+    entry: getEntryPoints(pages),
+    context: srcPath,
     output: {
-      filename: 'bundle.js',
-      path: path.join(__dirname, '/build'),
+      filename: 'js/[name].[contenthash].js',
+      path: path.resolve(__dirname, 'dist'),
+      assetModuleFilename: '[file]',
     },
-    resolve: {
-      extensions: ['.js', '.json', '.mjs'],
-      alias: {
-        '@': path.join(__dirname, 'src'),
-      },
-    },
+    target: ['web', 'es6'],
     module: {
       rules: [
         {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
+          test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp)$/i,
+          type: 'asset/resource',
         },
         {
-          test: /\.(sa|sc|c)ss$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          test: /\.(?:mp3|wav|ogg|mp4)$/i,
+          type: 'asset/resource',
         },
         {
-          test: /\.(png|svg|jpe?g|gif|ttf)$/,
-          use: {
-            loader: 'file-loader',
-          },
+          test: /\.(woff(2)?|eot|ttf|otf)$/i,
+          type: 'asset/resource',
         },
         {
-          test: /\.html$/,
-          use: {
-            loader: 'html-loader',
-          },
+          test: /\.css$/i,
+          use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader'],
         },
+        {
+          test: /\.s[ac]ss$/i,
+          use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.html$/i,
+          use: ['html-loader']
+        }
       ],
     },
-    devServer: {
-      static: './src/',
-      port: 9000,
-    },
     plugins: [
-      isProduction ? new CleanWebpackPlugin({}) : nothing,
-      new HtmlWebpackPlugin({
-        template: './src/index.html',
+      new MiniCssExtractPlugin({ filename: 'css/[name].[contenthash].css' }),
+      ...getHtmlPlugins(pages),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: '**/*',
+            context: srcPath,
+            globOptions: {
+              ignore: [
+                '**/*.js',
+                '**/*.ts',
+                '**/*.scss',
+                '**/*.sass',
+                '**/*.html',
+              ],
+            },
+            noErrorOnMissing: true,
+            force: true,
+          }
+        ],
       }),
-      isAnalyze ? new BundleAnalyzerPlugin() : nothing,
-      isProduction
-        ? new CopyWebpackPlugin({ patterns: [{ from: './src/static', to: '.' }] })
-        : nothing,
+      new CleanWebpackPlugin(),
+      new RemoveEmptyScriptsPlugin(),
     ],
+    resolve: {
+      extensions: ['.js'],
+    },
+    ...devServer(development)
   };
-};
+}
