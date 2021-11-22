@@ -48,8 +48,9 @@ const nudeA = [];
 let currentArr;
 let volumeValue = 50;
 let muted = false;
+let time = 20;
 let n = 0;
-
+let timerOption = true;
 let trueAns;
 
 function playTrueSound() {
@@ -74,6 +75,27 @@ function playFallseSound() {
     fallsAudio.muted = false;
   }
   fallsAudio.play();
+}
+
+function startTimer(duration) {
+  const modalFalls = document.querySelector(".fixed-overlay-falls");
+  const timeLine = document.querySelector(".time-line");
+  const ansOpt = document.querySelectorAll(".answer-option");
+  let timer = duration;
+  let tiktak = setInterval(function () {
+    timeLine.textContent = timer;
+    timer--;
+    if (timer < 0) {
+      modalFalls.classList.add("fixed-overlay-active");
+      playFallseSound();
+      clearInterval(tiktak);
+    }
+  }, 1000);
+  ansOpt.forEach((item) =>
+    item.addEventListener("click", function () {
+      clearInterval(tiktak);
+    })
+  );
 }
 
 async function pushInArr() {
@@ -164,6 +186,10 @@ const router = async () => {
 
     await page.wrap(currentArr, n);
 
+    if (timerOption) {
+      startTimer(time);
+    }
+
     answer.classList.add("answer-active");
 
     ansOpt.forEach(
@@ -175,12 +201,12 @@ const router = async () => {
           const modalFalls = document.querySelector(".fixed-overlay-falls");
           const modalResult = document.querySelector(".fixed-overlay-result");
           trueAns = currentArr[n].author;
+          console.log(trueAns);
           answer.classList.remove("answer-active");
-          n++;
-          if (e.target.textContent == trueAns && n != 10) {
+          if (e.target.textContent == trueAns && n != 9) {
             modalTrue.classList.add("fixed-overlay-active");
             playTrueSound();
-          } else if (e.target.textContent != trueAns && n != 10) {
+          } else if (e.target.textContent != trueAns && n != 9) {
             modalFalls.classList.add("fixed-overlay-active");
             playFallseSound();
           } else {
@@ -194,10 +220,14 @@ const router = async () => {
       item.addEventListener("click", function () {
         const modalTrue = document.querySelector(".fixed-overlay-true");
         const modalFalls = document.querySelector(".fixed-overlay-falls");
+        n++;
         modalTrue.classList.remove("fixed-overlay-active");
         modalFalls.classList.remove("fixed-overlay-active");
         answer.classList.add("answer-active");
         page.wrap(currentArr, n);
+        if (timerOption) {
+          startTimer(time);
+        }
       })
     );
   } else if (page === categoriesInstance) {
@@ -233,8 +263,15 @@ const router = async () => {
       })
     );
   } else if (page === settingsSettings) {
+    // настройки
     const volumeSlider = document.querySelector(".slider");
     const mute = document.querySelector(".mute");
+    const toggle = document.querySelector(".toggle-button");
+    const plus = document.querySelector(".plus");
+    const timerLimit = document.querySelector(".time-input");
+    const minus = document.querySelector(".minus");
+    timerLimit.value = time;
+    toggle.checked = timerOption;
     if (muted) {
       mute.classList.remove("mute-off");
     } else {
@@ -256,6 +293,25 @@ const router = async () => {
       volumeValue = e.target.value;
     });
     volumeSlider.addEventListener("mouseup", playTrueSound);
+    toggle.addEventListener("click", function () {
+      timerOption = toggle.checked;
+    });
+    plus.addEventListener("click", function () {
+      if (timerLimit.value == 30) {
+        timerLimit.value = 30;
+      } else {
+        timerLimit.value = +timerLimit.value + 5;
+      }
+      time = timerLimit.value;
+    });
+    minus.addEventListener("click", function () {
+      if (timerLimit.value == 5) {
+        timerLimit.value = 5;
+      } else {
+        timerLimit.value = +timerLimit.value - 5;
+      }
+      time = timerLimit.value;
+    });
   }
 };
 
