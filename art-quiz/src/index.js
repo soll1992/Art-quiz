@@ -1,5 +1,9 @@
 "use strict";
 
+alert(
+  "Добрый день! Работу доделать не успел из-за неожиданных жизненных обстоятельств. Прошу проверить в четверг вечером, если это возможно или написать мне в discord(Антон92#7138) на какое время вы можете отложить проверку. Если можете проверить только сейчас, то жмите 'OK' и проверьте то что есть на данный момент. Заранее спасибо!"
+);
+
 import "./styles/style.scss";
 
 import { Home } from "./pages/Home/index.js";
@@ -42,10 +46,35 @@ const interiorA = [];
 const nudeA = [];
 
 let currentArr;
-
+let volumeValue = 50;
+let muted = false;
 let n = 0;
 
 let trueAns;
+
+function playTrueSound() {
+  const trueAudio = new Audio();
+  trueAudio.src = "./assets/sound/true.mp3";
+  trueAudio.volume = volumeValue / 100;
+  if (muted) {
+    trueAudio.muted = true;
+  } else {
+    trueAudio.muted = false;
+  }
+  trueAudio.play();
+}
+
+function playFallseSound() {
+  const fallsAudio = new Audio();
+  fallsAudio.src = "./assets/sound/false.mp3";
+  fallsAudio.volume = volumeValue / 100;
+  if (muted) {
+    fallsAudio.muted = true;
+  } else {
+    fallsAudio.muted = false;
+  }
+  fallsAudio.play();
+}
 
 async function pushInArr() {
   //разделение большого массива на 24 маленьких
@@ -131,8 +160,11 @@ const router = async () => {
   if (page === questionsInstance) {
     const ansOpt = document.querySelectorAll(".answer-option");
     const nextButton = document.querySelectorAll(".continue");
+    const answer = document.querySelector(".answer");
 
     await page.wrap(currentArr, n);
+
+    answer.classList.add("answer-active");
 
     ansOpt.forEach(
       (
@@ -143,14 +175,18 @@ const router = async () => {
           const modalFalls = document.querySelector(".fixed-overlay-falls");
           const modalResult = document.querySelector(".fixed-overlay-result");
           trueAns = currentArr[n].author;
+          answer.classList.remove("answer-active");
           n++;
           if (e.target.textContent == trueAns && n != 10) {
             modalTrue.classList.add("fixed-overlay-active");
+            playTrueSound();
           } else if (e.target.textContent != trueAns && n != 10) {
             modalFalls.classList.add("fixed-overlay-active");
+            playFallseSound();
           } else {
             modalResult.classList.add("fixed-overlay-active");
             n = 0;
+            playTrueSound();
           }
         })
     );
@@ -160,6 +196,7 @@ const router = async () => {
         const modalFalls = document.querySelector(".fixed-overlay-falls");
         modalTrue.classList.remove("fixed-overlay-active");
         modalFalls.classList.remove("fixed-overlay-active");
+        answer.classList.add("answer-active");
         page.wrap(currentArr, n);
       })
     );
@@ -195,6 +232,30 @@ const router = async () => {
         }
       })
     );
+  } else if (page === settingsSettings) {
+    const volumeSlider = document.querySelector(".slider");
+    const mute = document.querySelector(".mute");
+    if (muted) {
+      mute.classList.remove("mute-off");
+    } else {
+      mute.classList.add("mute-off");
+    }
+    function muteVolume() {
+      if (!muted) {
+        muted = true;
+        mute.classList.toggle("mute-off");
+      } else {
+        muted = false;
+        mute.classList.toggle("mute-off");
+      }
+      console.log(muted);
+    }
+    mute.addEventListener("click", muteVolume);
+    volumeSlider.value = volumeValue;
+    volumeSlider.addEventListener("input", (e) => {
+      volumeValue = e.target.value;
+    });
+    volumeSlider.addEventListener("mouseup", playTrueSound);
   }
 };
 

@@ -1,14 +1,30 @@
 //Стили для главной домашней страницы
-.main {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    width: 100%;
-    height: 98vh;
-    padding-top: 2vh;
+
+html,
+body {
+  height: 100%;
+}
+body {
     background: url(../assets/img/main.jpg) no-repeat;
     background-position: center;
     background-color: black;
+    }
+.container {
+    height: 100%;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90%;
+    .main-body {
+        display: flex;
+        flex: 1 0 auto;
+        position: relative;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
     .logo {
         width: 440px;
         height: 165px;
@@ -44,7 +60,9 @@
 }
 //Стили для настроек
 .settings {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
     background-color: black;
     color: white;
@@ -53,6 +71,10 @@
         height: 80px;
         display: flex;
         align-items: center;
+    }
+    .settings-wrap {
+        flex: 1 0 auto;
+        height: 90%;
     }
     .back-home {
         display: block;
@@ -119,8 +141,12 @@
         width: 36px;
         height: 36px;
         background-image: url(../assets/svg/mute.svg);
+        background-repeat: no-repeat;
         margin-top: 30px;
         cursor: pointer;
+    }
+    .mute-off {
+        background-image: url(../assets/svg/volume.svg);
     }
     .time-game {
         margin-top: 80px;
@@ -212,7 +238,9 @@
 }
 //Страница категорий
 .categories {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     background-color: black;
     .categories-header {
         height: 100px;
@@ -238,6 +266,7 @@
         margin: 0 auto;
         margin-top: 130px;
         display: flex;
+        flex: 1 0 auto;
         flex-wrap: wrap;
     }
     .categori-card {
@@ -260,10 +289,14 @@
 }
 //Карточка вопросов схематично
 .questions {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    position: relative;
     background-color: black;
     .questions-body {
+        flex: 1 0 auto;
         padding-top: 10px;
         width: 900px;
         margin: 0 auto;
@@ -303,8 +336,7 @@
     }
     .painting-img {
         display: block;
-        width: 100%;
-        height: 600px;
+        height: 500px;
         background-repeat: no-repeat;
         transition: background-image 1s ease-in-out;
         animation-name: slidingstep1;
@@ -314,9 +346,17 @@
     }
     .answer {
         display: flex;
+        position: relative;
+        left: -3000px;
         flex-wrap: wrap;
         width: 70%;
         margin: 0 auto;
+        transition: 1s;
+    }
+
+    .answer-active {
+        left: 0;
+        transition: 1s;
     }
     .answer-option {
         background-color: inherit;
@@ -331,21 +371,23 @@
 .fixed-overlay {
     position: fixed;
     overflow: auto;
-    left: 0;
+    left: -3000px;
     top: 0;
-    opacity: 0;
-    visibility: hidden;
     display: block;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
     z-index: 10;
+    transition: 1s;
+}
+
+.fixed-overlay-falls {
+    left: 5000px
 }
   
 .fixed-overlay-active {
     visibility: visible;
+    left: 0;
     transition: 1s;
-    opacity: 1;
 }
   
 .modal {
@@ -408,13 +450,18 @@
     color: white;
 }
 .footer {
-    position: absolute;
     display: flex;
     align-items: center;
     bottom: 0;
     width: 100%;
-    height: 80px;
+    height: 10%;
+    flex: 0 0 auto;
 }
+
+.black-bg {
+    background-color: black;
+}
+
 .rslogo {
     width: 85px;
     height: 31px;
