@@ -338,6 +338,7 @@ const router = async () => {
     const plus = document.querySelector(".plus");
     const timerLimit = document.querySelector(".time-input");
     const minus = document.querySelector(".minus");
+    const settingsNav = document.querySelectorAll(".settings-nav-buttons");
     timerLimit.value = time;
     toggle.checked = timerOption;
     if (muted) {
@@ -380,6 +381,11 @@ const router = async () => {
       }
       time = timerLimit.value;
     });
+    settingsNav.forEach((item) =>
+      item.addEventListener("click", function () {
+        history.back();
+      })
+    );
   }
 };
 

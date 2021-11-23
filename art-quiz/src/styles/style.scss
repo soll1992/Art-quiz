@@ -76,15 +76,18 @@ body {
         flex: 1 0 auto;
         height: 90%;
     }
-    .back-home {
+    .back {
         display: block;
+        background-color: inherit;
+        border: none;
         position: relative;
         margin-left: 70px;
         font-size: 22px;
         text-decoration: none;
         color: white;
+        cursor: pointer;
     }
-    .back-home::before {
+    .back::before {
         content: '';
         position: absolute;
         width: 34px;
