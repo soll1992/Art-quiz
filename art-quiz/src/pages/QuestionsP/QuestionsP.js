@@ -1,6 +1,6 @@
-import QuestionsElement from "./Questions.html";
+import QuestionsElement from "./QuestionsP.html";
 
-export class Questions {
+export class QuestionsP {
   constructor() {}
 
   async render() {
@@ -9,7 +9,7 @@ export class Questions {
 
   async after_render() {}
 
-  wrap(currentArr, n, quiz) {
+  async wrap(currentArr, n) {
     /* let n = 0; */ // индекс текущей карточки с вопросами
 
     function shuffle(array) {
@@ -30,7 +30,7 @@ export class Questions {
       };
     }
 
-    function getQuestions() {
+    async function getQuestions() {
       let anwerOptions = new Set();
 
       switchImg();
@@ -49,42 +49,17 @@ export class Questions {
 
       shuffle(shufflingAnswears);
 
-      const answerOption = document.querySelectorAll(".answer-option");
+      let answerOption;
+
+      if (document.querySelectorAll(".answer-option")[0] !== undefined) {
+        answerOption = document.querySelectorAll(".answer-option");
+      }
 
       for (let j = 0; j < shufflingAnswears.length; j++) {
         answerOption[j].innerHTML = shufflingAnswears[j];
       }
     }
 
-    function getQuestionsP() {
-      let anwerOptions = new Set();
-      const currentArtist = currentArr[n].author;
-      const question = document.querySelector(".question");
-      const answerOption = document.querySelectorAll(".answer-option");
-
-      question.textContent = `Which is ${currentArtist} picture?`;
-
-      anwerOptions.add(currentArr[n].imageNum);
-
-      for (let i = 0; anwerOptions.size < 4; i++) {
-        let item = Math.round(Math.random() * 9);
-        anwerOptions.add(currentArr[item].imageNum);
-      }
-
-      let shufflingAnswears = [...anwerOptions];
-
-      shuffle(shufflingAnswears);
-
-      for (let j = 0; j < shufflingAnswears.length; j++) {
-        answerOption[
-          j
-        ].style.backgroundImage = `url('https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${shufflingAnswears[j]}.webp')`;
-      }
-    }
-    if (quiz) {
-      getQuestionsP();
-    } else {
-      getQuestions();
-    }
+    getQuestions();
   }
 }

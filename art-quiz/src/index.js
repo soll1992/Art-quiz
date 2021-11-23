@@ -8,16 +8,20 @@ import "./styles/style.scss";
 
 import { Home } from "./pages/Home/index.js";
 import { Categories } from "./pages/Categories/index.js";
+import { CategoriesP } from "./pages/CategoriesP/index.js";
 import { Settings } from "./pages/Settings/index.js";
 import { Questions } from "./pages/Questions/index.js";
+import { QuestionsP } from "./pages/QuestionsP/index.js";
 import { Error404 } from "./pages/Error404/index.js";
 
 import { Utils } from "./utils/Utils.js";
 
 const homeInstance = new Home();
 const settingsSettings = new Settings();
-const categoriesInstance = new Categories();
+const categoriesAInstance = new Categories();
+const categoriesPInstance = new CategoriesP();
 const questionsInstance = new Questions();
+const questionsPInstance = new QuestionsP();
 const error404Instance = new Error404();
 
 const portrait = [];
@@ -32,18 +36,18 @@ const kitsch = [];
 const minimalism = [];
 const interior = [];
 const nude = [];
-const portraitA = [];
-const landscapeA = [];
-const stillLifeA = [];
-const impressionismA = [];
-const expressionismA = [];
-const avantGardeA = [];
-const renaissanceA = [];
-const surrealismA = [];
-const kitschA = [];
-const minimalismA = [];
-const interiorA = [];
-const nudeA = [];
+const portraitP = [];
+const landscapeP = [];
+const stillLifeP = [];
+const impressionismP = [];
+const expressionismP = [];
+const avantGardeP = [];
+const renaissanceP = [];
+const surrealismP = [];
+const kitschP = [];
+const minimalismP = [];
+const interiorP = [];
+const nudeP = [];
 
 let currentArr;
 let volumeValue = 50;
@@ -53,6 +57,7 @@ let n = 0;
 let numberOfTrueAnswers = 0;
 let timerOption = true;
 let trueAns;
+let pictureQuiz = false;
 
 function playTrueSound() {
   const trueAudio = new Audio();
@@ -95,6 +100,7 @@ function startTimer(duration) {
   const timeLine = document.querySelector(".time-line");
   const ansOpt = document.querySelectorAll(".answer-option");
   const navButtons = document.querySelectorAll(".questions-nav-buttons");
+  const answer = document.querySelector(".answer");
 
   const trueImg = document.querySelectorAll(".true-painting-conteiner");
   const trueAuthor = document.querySelectorAll(".true-author");
@@ -107,6 +113,7 @@ function startTimer(duration) {
     timer--;
     if (timer < 0) {
       modalFalls.classList.add("fixed-overlay-active");
+      answer.classList.remove("answer-active");
       playFallseSound();
       trueAuthor.forEach((item) => {
         item.textContent = currentArr[n].author;
@@ -169,29 +176,29 @@ async function pushInArr() {
     } else if (item.imageNum >= 110 && item.imageNum < 120) {
       nude.push(item);
     } else if (item.imageNum >= 120 && item.imageNum < 130) {
-      portraitA.push(item);
+      portraitP.push(item);
     } else if (item.imageNum >= 130 && item.imageNum < 140) {
-      landscapeA.push(item);
+      landscapeP.push(item);
     } else if (item.imageNum >= 140 && item.imageNum < 150) {
-      stillLifeA.push(item);
+      stillLifeP.push(item);
     } else if (item.imageNum >= 150 && item.imageNum < 160) {
-      impressionismA.push(item);
+      impressionismP.push(item);
     } else if (item.imageNum >= 160 && item.imageNum < 170) {
-      expressionismA.push(item);
+      expressionismP.push(item);
     } else if (item.imageNum >= 170 && item.imageNum < 180) {
-      avantGardeA.push(item);
+      avantGardeP.push(item);
     } else if (item.imageNum >= 180 && item.imageNum < 190) {
-      renaissanceA.push(item);
+      renaissanceP.push(item);
     } else if (item.imageNum >= 190 && item.imageNum < 200) {
-      surrealismA.push(item);
+      surrealismP.push(item);
     } else if (item.imageNum >= 200 && item.imageNum < 210) {
-      kitschA.push(item);
+      kitschP.push(item);
     } else if (item.imageNum >= 210 && item.imageNum < 220) {
-      minimalismA.push(item);
+      minimalismP.push(item);
     } else if (item.imageNum >= 220 && item.imageNum < 230) {
-      interiorA.push(item);
+      interiorP.push(item);
     } else {
-      nudeA.push(item);
+      nudeP.push(item);
     }
   });
 }
@@ -199,8 +206,10 @@ async function pushInArr() {
 const routes = {
   "/": homeInstance,
   "/settings": settingsSettings,
-  "/categories": categoriesInstance,
+  "/categories_artist": categoriesAInstance,
+  "/categories_pictures": categoriesPInstance,
   "/questions": questionsInstance,
+  "/questions_pictures": questionsPInstance,
 };
 
 const router = async () => {
@@ -218,12 +227,13 @@ const router = async () => {
   content.innerHTML = await page.render();
   await page.after_render();
   await pushInArr();
-  if (page === questionsInstance) {
+  //карточка с вопросами
+  if (page === questionsInstance || page === questionsPInstance) {
     const ansOpt = document.querySelectorAll(".answer-option");
     const nextButton = document.querySelectorAll(".continue");
     const answer = document.querySelector(".answer");
-
-    await page.wrap(currentArr, n);
+    console.log(pictureQuiz);
+    questionsInstance.wrap(currentArr, n, pictureQuiz);
 
     if (timerOption) {
       startTimer(time);
@@ -245,9 +255,40 @@ const router = async () => {
           const trueName = document.querySelectorAll(".true-name");
 
           trueAns = currentArr[n].author;
-          console.log(trueAns);
           answer.classList.remove("answer-active");
-          if (e.target.textContent == trueAns) {
+          if (pictureQuiz) {
+            trueAns = currentArr[n].imageNum;
+            console.log(
+              e.target.style.backgroundImage ==
+                `url("https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${trueAns}.webp")`
+            );
+            if (
+              e.target.style.backgroundImage ==
+              `url("https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${trueAns}.webp")`
+            ) {
+              modalTrue.classList.add("fixed-overlay-active");
+              playTrueSound();
+              numberOfTrueAnswers++;
+              console.log(numberOfTrueAnswers);
+            } else if (
+              e.target.style.backgroundImage !=
+              `url("https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${trueAns}.webp")`
+            ) {
+              modalFalls.classList.add("fixed-overlay-active");
+              playFallseSound();
+            }
+          } else {
+            if (e.target.textContent == trueAns) {
+              modalTrue.classList.add("fixed-overlay-active");
+              playTrueSound();
+              numberOfTrueAnswers++;
+              console.log(numberOfTrueAnswers);
+            } else if (e.target.textContent != trueAns) {
+              modalFalls.classList.add("fixed-overlay-active");
+              playFallseSound();
+            }
+          }
+          /*           if (e.target.textContent == trueAns) {
             modalTrue.classList.add("fixed-overlay-active");
             playTrueSound();
             numberOfTrueAnswers++;
@@ -255,7 +296,7 @@ const router = async () => {
           } else if (e.target.textContent != trueAns) {
             modalFalls.classList.add("fixed-overlay-active");
             playFallseSound();
-          }
+          } */
           trueAuthor.forEach((item) => {
             item.textContent = currentArr[n].author;
           });
@@ -283,7 +324,8 @@ const router = async () => {
           modalTrue.classList.remove("fixed-overlay-active");
           modalFalls.classList.remove("fixed-overlay-active");
           answer.classList.add("answer-active");
-          page.wrap(currentArr, n);
+          console.log(pictureQuiz);
+          questionsInstance.wrap(currentArr, n, pictureQuiz);
           if (timerOption) {
             startTimer(time);
           }
@@ -297,8 +339,67 @@ const router = async () => {
         }
       })
     );
-  } else if (page === categoriesInstance) {
+  } /* else if (page === categoriesAInstance || page === categoriesPInstance) {
+    //категории
+
+    categories.forEach((item) =>
+      item.addEventListener("click", (e) => {
+        //запуск вопроса с конкретным массивом
+        if (e.target.classList.contains("portrait")) {
+          currentArr = portrait;
+        } else if (e.target.classList.contains("landscape")) {
+          currentArr = landscape;
+        } else if (e.target.classList.contains("stillLife")) {
+          currentArr = stillLife;
+        } else if (e.target.classList.contains("impressionism")) {
+          currentArr = impressionism;
+        } else if (e.target.classList.contains("expressionism")) {
+          currentArr = expressionism;
+        } else if (e.target.classList.contains("avantGarde")) {
+          currentArr = avantGarde;
+        } else if (e.target.classList.contains("renaissance")) {
+          currentArr = renaissance;
+        } else if (e.target.classList.contains("surrealism")) {
+          currentArr = surrealism;
+        } else if (e.target.classList.contains("kitsch")) {
+          currentArr = kitsch;
+        } else if (e.target.classList.contains("minimalism")) {
+          currentArr = minimalism;
+        } else if (e.target.classList.contains("interior")) {
+          currentArr = interior;
+        } else if (e.target.classList.contains("nude")) {
+          currentArr = nude;
+        } else if (e.target.classList.contains("portraitP")) {
+          currentArr = portraitP;
+        } else if (e.target.classList.contains("landscapeP")) {
+          currentArr = landscapeP;
+        } else if (e.target.classList.contains("stillLifeP")) {
+          currentArr = stillLifeP;
+        } else if (e.target.classList.contains("impressionismP")) {
+          currentArr = impressionismP;
+        } else if (e.target.classList.contains("expressionismP")) {
+          currentArr = expressionismP;
+        } else if (e.target.classList.contains("avantGardeP")) {
+          currentArr = avantGardeP;
+        } else if (e.target.classList.contains("renaissanceP")) {
+          currentArr = renaissanceP;
+        } else if (e.target.classList.contains("surrealismP")) {
+          currentArr = surrealismP;
+        } else if (e.target.classList.contains("kitschP")) {
+          currentArr = kitschP;
+        } else if (e.target.classList.contains("minimalismP")) {
+          currentArr = minimalismP;
+        } else if (e.target.classList.contains("interiorP")) {
+          currentArr = interiorP;
+        } else if (e.target.classList.contains("nudeP")) {
+          currentArr = nudeP;
+        }
+        numberOfTrueAnswers = 0;
+      })
+    );
+  } */ else if (page === categoriesAInstance) {
     const categories = document.querySelectorAll(".categori-card");
+    const pictLink = document.querySelector(".picture-link");
     categories.forEach((item) =>
       item.addEventListener("click", (e) => {
         //запуск вопроса с конкретным массивом
@@ -330,6 +431,52 @@ const router = async () => {
         numberOfTrueAnswers = 0;
       })
     );
+    console.log(pictureQuiz);
+    pictLink.addEventListener("click", function () {
+      pictureQuiz = true;
+      console.log("pictLink");
+    });
+    console.log(pictureQuiz);
+  } else if (page === categoriesPInstance) {
+    const categories = document.querySelectorAll(".categori-card");
+    const artistLink = document.querySelector(".artist-link");
+    categories.forEach((item) =>
+      item.addEventListener("click", (e) => {
+        //запуск вопроса с конкретным массивом
+        if (e.target.classList.contains("portraitP")) {
+          currentArr = portraitP;
+        } else if (e.target.classList.contains("landscapeP")) {
+          currentArr = landscapeP;
+        } else if (e.target.classList.contains("stillLifeP")) {
+          currentArr = stillLifeP;
+        } else if (e.target.classList.contains("impressionismP")) {
+          currentArr = impressionismP;
+        } else if (e.target.classList.contains("expressionismP")) {
+          currentArr = expressionismP;
+        } else if (e.target.classList.contains("avantGardeP")) {
+          currentArr = avantGardeP;
+        } else if (e.target.classList.contains("renaissanceP")) {
+          currentArr = renaissanceP;
+        } else if (e.target.classList.contains("surrealismP")) {
+          currentArr = surrealismP;
+        } else if (e.target.classList.contains("kitschP")) {
+          currentArr = kitschP;
+        } else if (e.target.classList.contains("minimalismP")) {
+          currentArr = minimalismP;
+        } else if (e.target.classList.contains("interiorP")) {
+          currentArr = interiorP;
+        } else if (e.target.classList.contains("nudeP")) {
+          currentArr = nudeP;
+        }
+        numberOfTrueAnswers = 0;
+      })
+    );
+    console.log(pictureQuiz);
+    artistLink.addEventListener("click", function () {
+      pictureQuiz = false;
+      console.log("artistLink");
+    });
+    console.log(pictureQuiz);
   } else if (page === settingsSettings) {
     // настройки
     const volumeSlider = document.querySelector(".slider");
@@ -386,6 +533,16 @@ const router = async () => {
         history.back();
       })
     );
+  } else if (page === homeInstance) {
+    //домашняя
+    const pictureButton = document.querySelector(".pictures");
+    const artistButton = document.querySelector(".artist");
+    pictureButton.addEventListener("click", function () {
+      pictureQuiz = true;
+    });
+    artistButton.addEventListener("click", function () {
+      pictureQuiz = false;
+    });
   }
 };
 
