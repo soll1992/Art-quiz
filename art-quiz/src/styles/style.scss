@@ -242,25 +242,6 @@ body {
     flex-direction: column;
     height: 100%;
     background-color: black;
-    .categories-header {
-        height: 100px;
-        display: flex;
-        align-items: center;
-    }
-    .logo {
-        width: 166px;
-        height: 62px;
-        margin-left: 70px;
-        background-image: url(../assets/svg/head-logo.svg);
-    }
-    .nav {
-        display: flex;
-        margin-left: 20%;
-        font-size: 22px;
-    }
-    .categories-nav {
-        margin-left: 200px;
-    }
     .categories-body {
         width: 1340px;
         margin: 0 auto;
@@ -301,13 +282,25 @@ body {
         width: 900px;
         margin: 0 auto;
     }
+    .question-nav {
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .timer-conteiner {
         width: 100%;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
         display: flex;
         color: white;
     }
     .time-line {
-        width: 50%;
+        width: 10%;
+        display: flex;
+        justify-content: center;
+        font-size: 30px;
     }
     .timer {
         width: 50%;
@@ -364,6 +357,26 @@ body {
         margin: 10px;
         cursor: pointer;
     }
+}
+
+.categories-header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+.logo {
+    width: 166px;
+    height: 62px;
+    margin-left: 70px;
+    background-image: url(../assets/svg/head-logo.svg);
+}
+.nav {
+    display: flex;
+    margin-left: 20%;
+    font-size: 22px;
+}
+.categories-nav {
+    margin-left: 200px;
 }
 
 // Тут начинаются стили на модалку. Ее можно юзать для отображения результатов
@@ -449,6 +462,13 @@ body {
 }
 
 .result-buttons {
+    width: 50%;
+    height: 40px;
+    margin-top: 20px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;

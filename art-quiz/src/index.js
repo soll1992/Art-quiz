@@ -94,6 +94,13 @@ function startTimer(duration) {
   const modalFalls = document.querySelector(".fixed-overlay-falls");
   const timeLine = document.querySelector(".time-line");
   const ansOpt = document.querySelectorAll(".answer-option");
+  const navButtons = document.querySelectorAll(".questions-nav-buttons");
+
+  const trueImg = document.querySelectorAll(".true-painting-conteiner");
+  const trueAuthor = document.querySelectorAll(".true-author");
+  const trueYear = document.querySelectorAll(".true-year");
+  const trueName = document.querySelectorAll(".true-name");
+
   let timer = duration;
   let tiktak = setInterval(function () {
     timeLine.textContent = timer;
@@ -101,12 +108,31 @@ function startTimer(duration) {
     if (timer < 0) {
       modalFalls.classList.add("fixed-overlay-active");
       playFallseSound();
+      trueAuthor.forEach((item) => {
+        item.textContent = currentArr[n].author;
+      });
+      trueYear.forEach((item) => {
+        item.textContent = currentArr[n].year;
+      });
+      trueName.forEach((item) => {
+        item.textContent = currentArr[n].name;
+      });
+      trueImg.forEach(
+        (item) =>
+          (item.style.backgroundImage = `url('https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${currentArr[n].imageNum}.webp')`)
+      );
       clearInterval(tiktak);
     }
   }, 1000);
   ansOpt.forEach((item) =>
     item.addEventListener("click", function () {
       clearInterval(tiktak);
+    })
+  );
+  navButtons.forEach((item) =>
+    item.addEventListener("click", function () {
+      clearInterval(tiktak);
+      n = 0;
     })
   );
 }
@@ -268,7 +294,6 @@ const router = async () => {
           n = 0;
           playResultSound();
           test.textContent = `Result: ${numberOfTrueAnswers}/10`;
-          numberOfTrueAnswers = 0;
         }
       })
     );
@@ -302,6 +327,7 @@ const router = async () => {
         } else if (e.target.classList.contains("nude")) {
           currentArr = nude;
         }
+        numberOfTrueAnswers = 0;
       })
     );
   } else if (page === settingsSettings) {
