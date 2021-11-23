@@ -25,6 +25,12 @@ body {
         width: 100%;
         height: 100%;
     }
+    .home-header {
+        height: 100px;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+    }
     .logo {
         width: 440px;
         height: 165px;
@@ -504,6 +510,15 @@ body {
 //общие стили. Называются туповато.
 //Я просто выносил их и менял по ходу дела
 //Не хотелось в каждом файле переименовывать
+@keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
 
 .settings-button {
     width: 36px;
@@ -514,6 +529,9 @@ body {
     cursor: pointer;
     margin-right: 20px;
     margin-left: auto;
+}
+.settings-button:hover {
+    animation: 1s linear 0s normal none infinite running rot;
 }
 .categori-link {
     display: flex;

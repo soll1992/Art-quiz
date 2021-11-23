@@ -50,6 +50,7 @@ const interiorP = [];
 const nudeP = [];
 
 let currentArr;
+let currentArrStr;
 let volumeValue = 50;
 let muted = false;
 let time = 20;
@@ -288,15 +289,6 @@ const router = async () => {
               playFallseSound();
             }
           }
-          /*           if (e.target.textContent == trueAns) {
-            modalTrue.classList.add("fixed-overlay-active");
-            playTrueSound();
-            numberOfTrueAnswers++;
-            console.log(numberOfTrueAnswers);
-          } else if (e.target.textContent != trueAns) {
-            modalFalls.classList.add("fixed-overlay-active");
-            playFallseSound();
-          } */
           trueAuthor.forEach((item) => {
             item.textContent = currentArr[n].author;
           });
@@ -339,65 +331,7 @@ const router = async () => {
         }
       })
     );
-  } /* else if (page === categoriesAInstance || page === categoriesPInstance) {
-    //категории
-
-    categories.forEach((item) =>
-      item.addEventListener("click", (e) => {
-        //запуск вопроса с конкретным массивом
-        if (e.target.classList.contains("portrait")) {
-          currentArr = portrait;
-        } else if (e.target.classList.contains("landscape")) {
-          currentArr = landscape;
-        } else if (e.target.classList.contains("stillLife")) {
-          currentArr = stillLife;
-        } else if (e.target.classList.contains("impressionism")) {
-          currentArr = impressionism;
-        } else if (e.target.classList.contains("expressionism")) {
-          currentArr = expressionism;
-        } else if (e.target.classList.contains("avantGarde")) {
-          currentArr = avantGarde;
-        } else if (e.target.classList.contains("renaissance")) {
-          currentArr = renaissance;
-        } else if (e.target.classList.contains("surrealism")) {
-          currentArr = surrealism;
-        } else if (e.target.classList.contains("kitsch")) {
-          currentArr = kitsch;
-        } else if (e.target.classList.contains("minimalism")) {
-          currentArr = minimalism;
-        } else if (e.target.classList.contains("interior")) {
-          currentArr = interior;
-        } else if (e.target.classList.contains("nude")) {
-          currentArr = nude;
-        } else if (e.target.classList.contains("portraitP")) {
-          currentArr = portraitP;
-        } else if (e.target.classList.contains("landscapeP")) {
-          currentArr = landscapeP;
-        } else if (e.target.classList.contains("stillLifeP")) {
-          currentArr = stillLifeP;
-        } else if (e.target.classList.contains("impressionismP")) {
-          currentArr = impressionismP;
-        } else if (e.target.classList.contains("expressionismP")) {
-          currentArr = expressionismP;
-        } else if (e.target.classList.contains("avantGardeP")) {
-          currentArr = avantGardeP;
-        } else if (e.target.classList.contains("renaissanceP")) {
-          currentArr = renaissanceP;
-        } else if (e.target.classList.contains("surrealismP")) {
-          currentArr = surrealismP;
-        } else if (e.target.classList.contains("kitschP")) {
-          currentArr = kitschP;
-        } else if (e.target.classList.contains("minimalismP")) {
-          currentArr = minimalismP;
-        } else if (e.target.classList.contains("interiorP")) {
-          currentArr = interiorP;
-        } else if (e.target.classList.contains("nudeP")) {
-          currentArr = nudeP;
-        }
-        numberOfTrueAnswers = 0;
-      })
-    );
-  } */ else if (page === categoriesAInstance) {
+  } else if (page === categoriesAInstance) {
     const categories = document.querySelectorAll(".categori-card");
     const pictLink = document.querySelector(".picture-link");
     categories.forEach((item) =>
@@ -405,36 +339,46 @@ const router = async () => {
         //запуск вопроса с конкретным массивом
         if (e.target.classList.contains("portrait")) {
           currentArr = portrait;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("landscape")) {
           currentArr = landscape;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("stillLife")) {
           currentArr = stillLife;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("impressionism")) {
           currentArr = impressionism;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("expressionism")) {
           currentArr = expressionism;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("avantGarde")) {
           currentArr = avantGarde;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("renaissance")) {
           currentArr = renaissance;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("surrealism")) {
           currentArr = surrealism;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("kitsch")) {
           currentArr = kitsch;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("minimalism")) {
           currentArr = minimalism;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("interior")) {
           currentArr = interior;
+          pictureQuiz = false;
         } else if (e.target.classList.contains("nude")) {
           currentArr = nude;
+          pictureQuiz = false;
         }
         numberOfTrueAnswers = 0;
       })
     );
-    console.log(pictureQuiz);
     pictLink.addEventListener("click", function () {
       pictureQuiz = true;
-      console.log("pictLink");
     });
     console.log(pictureQuiz);
   } else if (page === categoriesPInstance) {
@@ -445,28 +389,40 @@ const router = async () => {
         //запуск вопроса с конкретным массивом
         if (e.target.classList.contains("portraitP")) {
           currentArr = portraitP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("landscapeP")) {
           currentArr = landscapeP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("stillLifeP")) {
           currentArr = stillLifeP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("impressionismP")) {
           currentArr = impressionismP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("expressionismP")) {
           currentArr = expressionismP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("avantGardeP")) {
           currentArr = avantGardeP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("renaissanceP")) {
           currentArr = renaissanceP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("surrealismP")) {
           currentArr = surrealismP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("kitschP")) {
           currentArr = kitschP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("minimalismP")) {
           currentArr = minimalismP;
+          currentArrStr = "minimalismP";
         } else if (e.target.classList.contains("interiorP")) {
           currentArr = interiorP;
+          pictureQuiz = true;
         } else if (e.target.classList.contains("nudeP")) {
           currentArr = nudeP;
+          pictureQuiz = true;
         }
         numberOfTrueAnswers = 0;
       })
@@ -546,5 +502,25 @@ const router = async () => {
   }
 };
 
+function setLocalStorage() {
+  localStorage.setItem("currentArr", JSON.stringify(currentArr));
+  localStorage.setItem("volumeValue", volumeValue);
+  localStorage.setItem("muted", muted);
+  localStorage.setItem("time", time);
+  localStorage.setItem("timerOption", timerOption);
+  localStorage.setItem("pictureQuiz", pictureQuiz);
+}
+
+function getLocalStorage() {
+  currentArr = JSON.parse(localStorage.getItem("currentArr"));
+  volumeValue = localStorage.getItem("volumeValue");
+  time = localStorage.getItem("time");
+  muted = JSON.parse(localStorage.getItem("muted"));
+  timerOption = JSON.parse(localStorage.getItem("timerOption"));
+  pictureQuiz = JSON.parse(localStorage.getItem("pictureQuiz"));
+}
+
 window.addEventListener("hashchange", router);
 window.addEventListener("load", router);
+window.addEventListener("beforeunload", setLocalStorage);
+window.addEventListener("load", getLocalStorage);
