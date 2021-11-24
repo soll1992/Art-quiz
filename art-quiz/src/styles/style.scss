@@ -262,6 +262,8 @@ body {
     .categori-card {
         margin-bottom: 50px;
         margin-right: 26px;
+        width: 195px;
+        height: 227px;
         text-decoration: none;
         cursor: pointer;
         img {
@@ -269,12 +271,21 @@ body {
         }
     }
     .card-title {
+        display: flex;
         margin-bottom: 10px;
         font-size: 20px;
         color: white;
     }
     img {
         border-radius: 20px;
+    }
+    .score {
+        display: block;
+        margin-right: 0;
+        margin-left: auto;
+    }
+    .grey {
+        filter: grayscale(100%);
     }
 }
 //Карточка вопросов схематично

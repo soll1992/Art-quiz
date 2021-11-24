@@ -49,6 +49,8 @@ const minimalismP = [];
 const interiorP = [];
 const nudeP = [];
 
+let categoriResult = {};
+
 let currentArr;
 let currentArrStr;
 let volumeValue = 50;
@@ -227,13 +229,14 @@ const router = async () => {
 
   content.innerHTML = await page.render();
   await page.after_render();
-  await pushInArr();
+  if (currentArr.length < 10) {
+    await pushInArr();
+  }
   //карточка с вопросами
   if (page === questionsInstance || page === questionsPInstance) {
     const ansOpt = document.querySelectorAll(".answer-option");
     const nextButton = document.querySelectorAll(".continue");
     const answer = document.querySelector(".answer");
-    console.log(pictureQuiz);
     questionsInstance.wrap(currentArr, n, pictureQuiz);
 
     if (timerOption) {
@@ -333,106 +336,171 @@ const router = async () => {
     );
   } else if (page === categoriesAInstance) {
     const categories = document.querySelectorAll(".categori-card");
+    const scoreSpan = document.querySelectorAll(".score");
+    //Вынести в отдельную функцию НАЧАЛО
     const pictLink = document.querySelector(".picture-link");
+    const categoriImg = document.querySelectorAll(".categori-img");
+
+    if (currentArrStr !== undefined) {
+      categoriResult[currentArrStr] = `${numberOfTrueAnswers}/10`;
+    }
+    //добавление score к категориям
+    for (let key in categoriResult) {
+      scoreSpan.forEach((item) => {
+        if (item.classList.contains(key)) {
+          item.textContent = categoriResult[key];
+        }
+      });
+      categoriImg.forEach((item) => {
+        if (item.classList.contains(key)) {
+          item.classList.remove("grey");
+        }
+      });
+    }
+    //Вынести в отдельную функцию КОНЕЦ
     categories.forEach((item) =>
       item.addEventListener("click", (e) => {
         //запуск вопроса с конкретным массивом
         if (e.target.classList.contains("portrait")) {
           currentArr = portrait;
           pictureQuiz = false;
+          currentArrStr = "portrait";
         } else if (e.target.classList.contains("landscape")) {
           currentArr = landscape;
           pictureQuiz = false;
+          currentArrStr = "landscape";
         } else if (e.target.classList.contains("stillLife")) {
           currentArr = stillLife;
           pictureQuiz = false;
+          currentArrStr = "stillLife";
         } else if (e.target.classList.contains("impressionism")) {
           currentArr = impressionism;
           pictureQuiz = false;
+          currentArrStr = "impressionism";
         } else if (e.target.classList.contains("expressionism")) {
           currentArr = expressionism;
           pictureQuiz = false;
+          currentArrStr = "expressionism";
         } else if (e.target.classList.contains("avantGarde")) {
           currentArr = avantGarde;
           pictureQuiz = false;
+          currentArrStr = "avantGarde";
         } else if (e.target.classList.contains("renaissance")) {
           currentArr = renaissance;
           pictureQuiz = false;
+          currentArrStr = "renaissance";
         } else if (e.target.classList.contains("surrealism")) {
           currentArr = surrealism;
           pictureQuiz = false;
+          currentArrStr = "surrealism";
         } else if (e.target.classList.contains("kitsch")) {
           currentArr = kitsch;
           pictureQuiz = false;
+          currentArrStr = "kitsch";
         } else if (e.target.classList.contains("minimalism")) {
           currentArr = minimalism;
           pictureQuiz = false;
+          currentArrStr = "minimalism";
         } else if (e.target.classList.contains("interior")) {
           currentArr = interior;
           pictureQuiz = false;
+          currentArrStr = "interior";
         } else if (e.target.classList.contains("nude")) {
           currentArr = nude;
           pictureQuiz = false;
+          currentArrStr = "nude";
         }
+        n = 0;
         numberOfTrueAnswers = 0;
       })
     );
     pictLink.addEventListener("click", function () {
       pictureQuiz = true;
     });
-    console.log(pictureQuiz);
   } else if (page === categoriesPInstance) {
     const categories = document.querySelectorAll(".categori-card");
     const artistLink = document.querySelector(".artist-link");
+    //вынести в отдельную функцию НАЧАЛО
+    const scoreSpan = document.querySelectorAll(".score");
+    const categoriImg = document.querySelectorAll(".categori-img");
+
+    if (currentArrStr !== undefined) {
+      categoriResult[currentArrStr] = `${numberOfTrueAnswers}/10`;
+    }
+    //добавление score к категориям
+    for (let key in categoriResult) {
+      scoreSpan.forEach((item) => {
+        if (item.classList.contains(key)) {
+          item.textContent = categoriResult[key];
+        }
+      });
+      categoriImg.forEach((item) => {
+        if (item.classList.contains(key)) {
+          item.classList.remove("grey");
+        }
+      });
+    }
+    //вынести в отдельную функцию КОНЕЦ
     categories.forEach((item) =>
       item.addEventListener("click", (e) => {
         //запуск вопроса с конкретным массивом
         if (e.target.classList.contains("portraitP")) {
           currentArr = portraitP;
           pictureQuiz = true;
+          currentArrStr = "portraitP";
         } else if (e.target.classList.contains("landscapeP")) {
           currentArr = landscapeP;
           pictureQuiz = true;
+          currentArrStr = "landscapeP";
         } else if (e.target.classList.contains("stillLifeP")) {
           currentArr = stillLifeP;
           pictureQuiz = true;
+          currentArrStr = "stillLifeP";
         } else if (e.target.classList.contains("impressionismP")) {
           currentArr = impressionismP;
           pictureQuiz = true;
+          currentArrStr = "impressionismP";
         } else if (e.target.classList.contains("expressionismP")) {
           currentArr = expressionismP;
           pictureQuiz = true;
+          currentArrStr = "expressionismP";
         } else if (e.target.classList.contains("avantGardeP")) {
           currentArr = avantGardeP;
           pictureQuiz = true;
+          currentArrStr = "avantGardeP";
         } else if (e.target.classList.contains("renaissanceP")) {
           currentArr = renaissanceP;
           pictureQuiz = true;
+          currentArrStr = "renaissanceP";
         } else if (e.target.classList.contains("surrealismP")) {
           currentArr = surrealismP;
           pictureQuiz = true;
+          currentArrStr = "surrealismP";
         } else if (e.target.classList.contains("kitschP")) {
           currentArr = kitschP;
           pictureQuiz = true;
+          currentArrStr = "kitschP";
         } else if (e.target.classList.contains("minimalismP")) {
           currentArr = minimalismP;
+          pictureQuiz = true;
           currentArrStr = "minimalismP";
         } else if (e.target.classList.contains("interiorP")) {
           currentArr = interiorP;
           pictureQuiz = true;
+          currentArrStr = "interiorP";
         } else if (e.target.classList.contains("nudeP")) {
           currentArr = nudeP;
           pictureQuiz = true;
+          currentArrStr = "nudeP";
         }
         numberOfTrueAnswers = 0;
+        n = 0;
       })
     );
-    console.log(pictureQuiz);
     artistLink.addEventListener("click", function () {
       pictureQuiz = false;
       console.log("artistLink");
     });
-    console.log(pictureQuiz);
   } else if (page === settingsSettings) {
     // настройки
     const volumeSlider = document.querySelector(".slider");
@@ -469,7 +537,7 @@ const router = async () => {
       timerOption = toggle.checked;
     });
     plus.addEventListener("click", function () {
-      if (timerLimit.value == 30) {
+      if (timerLimit.value >= 30) {
         timerLimit.value = 30;
       } else {
         timerLimit.value = +timerLimit.value + 5;
@@ -477,7 +545,7 @@ const router = async () => {
       time = timerLimit.value;
     });
     minus.addEventListener("click", function () {
-      if (timerLimit.value == 5) {
+      if (timerLimit.value <= 5) {
         timerLimit.value = 5;
       } else {
         timerLimit.value = +timerLimit.value - 5;
@@ -520,7 +588,8 @@ function getLocalStorage() {
   pictureQuiz = JSON.parse(localStorage.getItem("pictureQuiz"));
 }
 
-window.addEventListener("hashchange", router);
-window.addEventListener("load", router);
 window.addEventListener("beforeunload", setLocalStorage);
 window.addEventListener("load", getLocalStorage);
+
+window.addEventListener("hashchange", router);
+window.addEventListener("load", router);
