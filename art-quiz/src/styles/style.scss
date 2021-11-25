@@ -65,10 +65,6 @@ body {
     .artist-link {
         margin-right: 40px;
     }
-    .git-link:hover,
-    .categori-link:hover {
-        opacity: 0.6;
-    }
 }
 @media(max-width: 635px) {
     .main {
@@ -273,11 +269,17 @@ body {
     }
 }
 //Страница категорий
+
+
 .categories {
     display: flex;
     flex-direction: column;
     height: 100%;
     background-color: black;
+/*     @keyframes test {
+        0%   { left: -2000px; opacity:0;}
+        100% { left: 0px;opacity:1; }
+    } */
     .categories-body {
         width: 1340px;
         margin: 0 auto;
@@ -285,6 +287,10 @@ body {
         display: flex;
         flex: 1 0 auto;
         flex-wrap: wrap;
+/*         animation-name: test;
+        animation-duration: 2s;
+        animation-direction: normal;
+        animation-timing-function: ease-out; */
     }
     .result-link {
         display: none;
@@ -296,6 +302,10 @@ body {
         display: flex;
     }
     .links-wrap {
+        animation-name: slidingstep1;
+        animation-duration: 3s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
         margin-right: 20px;
     }
     .categori-card {
@@ -347,6 +357,10 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         margin-right: 50px;
+        animation-name: slidingstep1;
+        animation-duration: 3s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
         cursor: pointer;
     }
     .result-mask {
@@ -426,14 +440,8 @@ body {
     }
 
     @keyframes slidingstep1 {
-        0% {
-          left: -100px;
-          opacity: 0;
-        }
-        100% {
-          left: 0px;
-          opacity: 1;
-        }
+        0%   { left: -100px; opacity:0;}
+        100% { left: 0px;opacity:1; }
       }
     .painting-img {
         display: block;
@@ -444,7 +452,7 @@ body {
         background-repeat: no-repeat;
         transition: background-image 1s ease-in-out;
         animation-name: slidingstep1;
-        animation-duration: 5s;
+        animation-duration: 3s;
         animation-direction: normal;
         animation-timing-function: ease-out;
     }
@@ -500,6 +508,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 .logo {
     width: 166px;
     height: 62px;
@@ -746,3 +755,15 @@ body {
     }
 }
 
+.categori-link:hover {
+    background-color: #FFBCA2;
+    color: black;
+}
+
+.git-link:hover,
+.home-nav:hover,
+.categories-nav:hover,
+.result-nav:hover,
+.result-link:hover {
+    color: #FFBCA2;
+}
