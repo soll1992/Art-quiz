@@ -8,6 +8,7 @@ body {
     background: url(../assets/img/main.jpg) no-repeat;
     background-position: center;
     background-color: black;
+    overflow-x: hidden;
     }
 .container {
     width: 100%;
@@ -26,7 +27,6 @@ body {
     .main-body {
         display: flex;
         flex: 1 0 auto;
-        position: relative;
         flex-direction: column;
         width: 100%;
         height: 100%;
@@ -35,7 +35,12 @@ body {
         height: 100px;
         display: flex;
         justify-items: center;
-        align-items: center;
+        align-items: center; 
+        position: relative;
+        animation-name: fromRight;
+        animation-duration: 2s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
     }
     .logo {
         width: 440px;
@@ -43,11 +48,21 @@ body {
         margin: 0 auto;
         margin-top: 250px;
         background: url(../assets/svg/art.svg) no-repeat;
+        position: relative;
+        animation-name: fromLeft;
+        animation-duration: 2s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
     }
     .categories-main-buttons {
         display: flex;
         margin: 0 auto;
         margin-top: 165px;
+        position: relative;
+        animation-name: fromLeft;
+        animation-duration: 2s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
     }
     .categori-link {
         display: flex;
@@ -98,6 +113,11 @@ body {
     .settings-wrap {
         flex: 1 0 auto;
         height: 90%;
+        position: relative;
+        animation-name: fromLeft;
+        animation-duration: 2s;
+        animation-direction: normal;
+        animation-timing-function: ease-out;
     }
     .back {
         display: block;
@@ -276,10 +296,6 @@ body {
     flex-direction: column;
     height: 100%;
     background-color: black;
-/*     @keyframes test {
-        0%   { left: -2000px; opacity:0;}
-        100% { left: 0px;opacity:1; }
-    } */
     .categories-body {
         width: 1340px;
         margin: 0 auto;
@@ -287,10 +303,6 @@ body {
         display: flex;
         flex: 1 0 auto;
         flex-wrap: wrap;
-/*         animation-name: test;
-        animation-duration: 2s;
-        animation-direction: normal;
-        animation-timing-function: ease-out; */
     }
     .result-link {
         display: none;
@@ -302,8 +314,9 @@ body {
         display: flex;
     }
     .links-wrap {
-        animation-name: slidingstep1;
-        animation-duration: 3s;
+        position: relative;
+        animation-name: fromLeft;
+        animation-duration: 2s;
         animation-direction: normal;
         animation-timing-function: ease-out;
         margin-right: 20px;
@@ -357,8 +370,8 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         margin-right: 50px;
-        animation-name: slidingstep1;
-        animation-duration: 3s;
+        animation-name: fromLeft;
+        animation-duration: 2s;
         animation-direction: normal;
         animation-timing-function: ease-out;
         cursor: pointer;
@@ -397,6 +410,29 @@ body {
         margin-bottom: 10px;
     }
 }
+
+@keyframes fromLeft {
+    0%   { left: -100%; opacity:0;}
+    100% { left: 0%;opacity:1; }
+  }
+
+@keyframes fromRight {
+    0%   { right: -100%; opacity:0;}
+    100% { right: 0%;opacity:1; }
+}
+
+@keyframes trambling-animation {
+    0%, 50%, 100% {
+        transform: rotate(0deg);
+    }
+    10%, 30% {
+        transform: rotate(-10deg);
+    }
+    20%, 40% {
+        transform: rotate(10deg);
+    }
+}
+
 .questions {
     display: flex;
     flex-direction: column;
@@ -439,10 +475,6 @@ body {
         color: white;
     }
 
-    @keyframes slidingstep1 {
-        0%   { left: -100px; opacity:0;}
-        100% { left: 0px;opacity:1; }
-      }
     .painting-img {
         display: block;
         margin: 0 auto;
@@ -451,10 +483,6 @@ body {
         background-size: cover;
         background-repeat: no-repeat;
         transition: background-image 1s ease-in-out;
-        animation-name: slidingstep1;
-        animation-duration: 3s;
-        animation-direction: normal;
-        animation-timing-function: ease-out;
     }
     .answer {
         display: flex;
@@ -507,6 +535,11 @@ body {
     height: 100px;
     display: flex;
     align-items: center;
+    position: relative;
+    animation-name: fromRight;
+    animation-duration: 2s;
+    animation-direction: normal;
+    animation-timing-function: ease-out;
 }
 
 .logo {
@@ -620,6 +653,7 @@ body {
     height: 100px;
     background-image: url(../assets/svg/result.svg);
     background-size: contain;
+    animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
 }
 
 .continue {
@@ -714,12 +748,17 @@ body {
     color: white;
 }
 .footer {
+    position: relative;
     display: flex;
     align-items: center;
     bottom: 0;
     width: 100%;
     height: 10%;
     flex: 0 0 auto;
+    animation-name: fromRight;
+    animation-duration: 2s;
+    animation-direction: normal;
+    animation-timing-function: ease-out;
 }
 
 .black-bg {
@@ -766,4 +805,14 @@ body {
 .result-nav:hover,
 .result-link:hover {
     color: #FFBCA2;
+}
+
+.links-wrap:hover,
+.answer-image:hover {
+    transform: scale(1.1)
+}
+
+.continue:hover,
+.result-buttons:hover {
+    opacity: 0.8;
 }
