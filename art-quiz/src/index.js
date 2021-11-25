@@ -97,7 +97,6 @@ function playTrueSound() {
   const trueAudio = new Audio();
   trueAudio.src = "./assets/sound/true.mp3";
   trueAudio.volume = volumeValue / 100;
-  console.log(volumeValue);
   if (muted) {
     trueAudio.muted = true;
   } else {
@@ -405,7 +404,6 @@ const router = async () => {
 
   //карточка с вопросами
   if (page === questionsInstance || page === questionsPInstance) {
-    console.log(volumeValue);
     const ansOpt = document.querySelectorAll(".answer-option");
     const nextButton = document.querySelectorAll(".continue");
     const answer = document.querySelector(".answer");
@@ -463,7 +461,6 @@ const router = async () => {
             }
             playTrueSound();
             numberOfTrueAnswers++;
-            console.log(numberOfTrueAnswers);
           } else if (
             e.target.style.backgroundImage !=
             `url("https://raw.githubusercontent.com/antoshkoo/image-data/master/img/${trueAns}.webp")`
@@ -526,7 +523,6 @@ const router = async () => {
             }
             playTrueSound();
             numberOfTrueAnswers++;
-            console.log(numberOfTrueAnswers);
           } else if (e.target.textContent != trueAns) {
             modalFalls.classList.add("fixed-overlay-active");
             if (currentArrStr === "portrait") {
@@ -554,7 +550,6 @@ const router = async () => {
             } else if (currentArrStr === "landscape") {
               resultsObj.nude.push(0);
             }
-            console.log(resultsObj);
             playFallseSound();
           }
         }
@@ -585,7 +580,6 @@ const router = async () => {
           modalTrue.classList.remove("fixed-overlay-active");
           modalFalls.classList.remove("fixed-overlay-active");
           answer.classList.add("answer-active");
-          console.log(pictureQuiz);
           questionsInstance.wrap(currentArr, n, pictureQuiz);
           if (timerOption) {
             startTimer(time);
@@ -601,7 +595,6 @@ const router = async () => {
       })
     );
   } else if (page === categoriesAInstance) {
-    console.log(volumeValue);
     const categories = document.querySelectorAll(".categori-card");
     const results = document.querySelectorAll(".result-link");
     const scoreSpan = document.querySelectorAll(".score");
@@ -745,7 +738,6 @@ const router = async () => {
       pictureQuiz = true;
     });
   } else if (page === categoriesPInstance) {
-    console.log(volumeValue);
     const categories = document.querySelectorAll(".categori-card");
     const artistLink = document.querySelector(".artist-link");
     const results = document.querySelectorAll(".result-link");
@@ -771,7 +763,6 @@ const router = async () => {
       });
       results.forEach((item) => {
         if (item.classList.contains(key)) {
-          console.log("WORK");
           item.classList.add("result-link-active");
         }
       });
@@ -877,10 +868,8 @@ const router = async () => {
     );
     artistLink.addEventListener("click", function () {
       pictureQuiz = false;
-      console.log("artistLink");
     });
   } else if (page === settingsSettings) {
-    console.log(volumeValue);
     // настройки
     const volumeSlider = document.querySelector(".slider");
     const mute = document.querySelector(".mute");
@@ -904,7 +893,6 @@ const router = async () => {
         muted = false;
         mute.classList.toggle("mute-off");
       }
-      console.log(muted);
     }
     mute.addEventListener("click", muteVolume);
     volumeSlider.value = volumeValue;
@@ -937,7 +925,6 @@ const router = async () => {
       })
     );
   } else if (page === homeInstance) {
-    console.log(volumeValue);
     //домашняя
     const pictureButton = document.querySelector(".pictures");
     const artistButton = document.querySelector(".artist");

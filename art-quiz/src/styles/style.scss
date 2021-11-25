@@ -139,16 +139,6 @@ body {
         left: -34px;
         bottom: -4px;
     }
-    .settings-close {
-        width: 36px;
-        height: 36px;
-        margin-left: auto;
-        margin-right: 70px;
-        background-color: inherit;
-        border: none;
-        background-image: url(../assets/svg/cross.svg);
-        cursor: pointer;
-    }
     .volume {
         margin-left: 100px;
     }
@@ -794,7 +784,8 @@ body {
     }
 }
 
-.categori-link:hover {
+.categori-link:hover,
+.time-button:hover {
     background-color: #FFBCA2;
     color: black;
 }
@@ -803,7 +794,8 @@ body {
 .home-nav:hover,
 .categories-nav:hover,
 .result-nav:hover,
-.result-link:hover {
+.result-link:hover,
+.back:hover {
     color: #FFBCA2;
 }
 
@@ -815,4 +807,24 @@ body {
 .continue:hover,
 .result-buttons:hover {
     opacity: 0.8;
+}
+
+.continue:active,
+.result-buttons:active {
+    background-color: rgb(55, 175, 255);
+}
+
+.categori-link:active,
+.time-button:active {
+    background-color: rgb(255, 115, 0);
+    color: black;
+}
+
+.git-link:active,
+.home-nav:active,
+.categories-nav:active,
+.result-nav:active,
+.result-link:active,
+.back:active {
+    color: rgb(255, 115, 0);
 }
