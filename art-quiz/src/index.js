@@ -1,5 +1,9 @@
 "use strict";
 
+console.log(`Особенности: если какие-то функции указанные в тз не работают
+почистите локал сторадж и перезагрузите страницу или попробуйте проверить 
+в режиме инкогнито. Баги тоже не исключены )`);
+
 import "./styles/style.scss";
 
 import { Home } from "./pages/Home/indexH.js";
@@ -86,8 +90,8 @@ let numberOfTrueAnswers = 0;
 let timerOption = true;
 let trueAns;
 let pictureQuiz = false;
-let currentResultArr1 = [];
-let currentResultArr2 = [];
+let currentResultArr1;
+let currentResultArr2;
 
 function playTrueSound() {
   const trueAudio = new Audio();
@@ -230,7 +234,7 @@ async function pushInArr() {
   const res = await fetch(pic);
   const data = await res.json();
 
-  data.map((item) => {
+  data.forEach((item) => {
     if (item.imageNum < 10 && portrait.length < 10) {
       portrait.push(item);
     } else if (
@@ -365,7 +369,11 @@ async function pushInArr() {
       interiorP.length < 10
     ) {
       interiorP.push(item);
-    } else if (nudeP.length < 10) {
+    } else if (
+      item.imageNum >= 220 &&
+      item.imageNum < 230 &&
+      nudeP.length < 10
+    ) {
       nudeP.push(item);
     }
   });
@@ -394,9 +402,8 @@ const router = async () => {
   const page = routes[parsedURL] ? routes[parsedURL] : error404Instance;
 
   content.innerHTML = await page.render();
-  await page.after_render();
-
   await pushInArr();
+  await page.after_render();
 
   //карточка с вопросами
   if (page === questionsInstance || page === questionsPInstance) {
@@ -771,50 +778,62 @@ const router = async () => {
           currentArr = portraitP;
           pictureQuiz = true;
           currentArrStr = "portraitP";
+          resultsObj.portraitP = [];
         } else if (e.target.classList.contains("landscapeP")) {
           currentArr = landscapeP;
           pictureQuiz = true;
           currentArrStr = "landscapeP";
+          resultsObj.landscapeP = [];
         } else if (e.target.classList.contains("stillLifeP")) {
           currentArr = stillLifeP;
           pictureQuiz = true;
           currentArrStr = "stillLifeP";
+          resultsObj.stillLifeP = [];
         } else if (e.target.classList.contains("impressionismP")) {
           currentArr = impressionismP;
           pictureQuiz = true;
           currentArrStr = "impressionismP";
+          resultsObj.impressionismP = [];
         } else if (e.target.classList.contains("expressionismP")) {
           currentArr = expressionismP;
           pictureQuiz = true;
           currentArrStr = "expressionismP";
+          resultsObj.expressionismP = [];
         } else if (e.target.classList.contains("avantGardeP")) {
           currentArr = avantGardeP;
           pictureQuiz = true;
           currentArrStr = "avantGardeP";
+          resultsObj.avantGardeP = [];
         } else if (e.target.classList.contains("renaissanceP")) {
           currentArr = renaissanceP;
           pictureQuiz = true;
           currentArrStr = "renaissanceP";
+          resultsObj.renaissanceP = [];
         } else if (e.target.classList.contains("surrealismP")) {
           currentArr = surrealismP;
           pictureQuiz = true;
           currentArrStr = "surrealismP";
+          resultsObj.surrealismP = [];
         } else if (e.target.classList.contains("kitschP")) {
           currentArr = kitschP;
           pictureQuiz = true;
           currentArrStr = "kitschP";
+          resultsObj.kitschP = [];
         } else if (e.target.classList.contains("minimalismP")) {
           currentArr = minimalismP;
           pictureQuiz = true;
           currentArrStr = "minimalismP";
+          resultsObj.minimalismP = [];
         } else if (e.target.classList.contains("interiorP")) {
           currentArr = interiorP;
           pictureQuiz = true;
           currentArrStr = "interiorP";
+          resultsObj.interiorP = [];
         } else if (e.target.classList.contains("nudeP")) {
           currentArr = nudeP;
           pictureQuiz = true;
           currentArrStr = "nudeP";
+          resultsObj.nudeP = [];
         }
         numberOfTrueAnswers = 0;
         n = 0;
