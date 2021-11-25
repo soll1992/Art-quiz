@@ -388,6 +388,9 @@ body {
     .result-mask:hover {
         opacity: 1;
     }
+    .result-mask-active {
+        opacity: 1;
+    }
 }
 @media(max-width: 1400px) {
     .result-body {

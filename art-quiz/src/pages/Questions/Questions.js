@@ -35,9 +35,6 @@ export class Questions {
 
       switchImg();
 
-      console.log(n);
-
-      /* trueAns = currentArr[n].author; */
       anwerOptions.add(currentArr[n].author);
 
       for (let i = 0; anwerOptions.size < 4; i++) {

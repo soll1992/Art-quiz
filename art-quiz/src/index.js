@@ -1,9 +1,5 @@
 "use strict";
 
-/* alert(
-  "Добрый день! Работу доделать не успел из-за неожиданных жизненных обстоятельств. Прошу проверить в четверг вечером, если это возможно или написать мне в discord(Антон92#7138) на какое время вы можете отложить проверку. Если можете проверить только сейчас, то жмите 'OK' и проверьте то что есть на данный момент. Заранее спасибо!"
-); */
-
 import "./styles/style.scss";
 
 import { Home } from "./pages/Home/indexH.js";
@@ -90,8 +86,8 @@ let numberOfTrueAnswers = 0;
 let timerOption = true;
 let trueAns;
 let pictureQuiz = false;
-let currentResultArr1;
-let currentResultArr2;
+let currentResultArr1 = [];
+let currentResultArr2 = [];
 
 function playTrueSound() {
   const trueAudio = new Audio();
@@ -937,6 +933,7 @@ const router = async () => {
   } else if (page === resultInstance) {
     //результаты
     const resultPainting = document.querySelectorAll(".result-painting");
+    const mask = document.querySelectorAll(".result-mask");
     const resultName = document.querySelectorAll(".author-name");
     const resultYear = document.querySelectorAll(".painting-year");
     const resultPaintingName = document.querySelectorAll(".painting-name");
@@ -954,6 +951,9 @@ const router = async () => {
       resultName[x].textContent = currentResultArr1[x].author;
       resultYear[x].textContent = currentResultArr1[x].year;
       resultPaintingName[x].textContent = currentResultArr1[x].name;
+      resultPainting[x].addEventListener("click", function () {
+        mask[x].classList.toggle("result-mask-active");
+      });
     }
     for (let y = 0; y < currentResultArr2.length; y++) {
       if (currentResultArr2[y] === 1) {
@@ -964,6 +964,13 @@ const router = async () => {
 };
 
 function setLocalStorage() {
+  //тест
+  /*   localStorage.setItem("resultsObj", JSON.stringify(resultsObj));
+  localStorage.setItem("categoriResult", JSON.stringify(categoriResult));
+  localStorage.setItem("currentResultArr1", JSON.stringify(currentResultArr1));
+  localStorage.setItem("currentResultArr2", JSON.stringify(currentResultArr2));
+  localStorage.setItem("currentArrStr", currentArrStr); */
+  //тест
   localStorage.setItem("currentArr", JSON.stringify(currentArr));
   localStorage.setItem("volumeValue", volumeValue);
   localStorage.setItem("muted", muted);
@@ -973,6 +980,18 @@ function setLocalStorage() {
 }
 
 function getLocalStorage() {
+  //тест
+  /*   resultsObj = JSON.parse(localStorage.getItem("resultsObj"));
+  categoriResult = JSON.parse(localStorage.getItem("categoriResult"));
+  if (currentResultArr1 !== "undefined") {
+    currentResultArr1 = JSON.parse(localStorage.getItem("currentResultArr1"));
+  }
+    if (currentResultArr2 !== "undefined") {
+    currentResultArr2 = JSON.parse(localStorage.getItem("currentResultArr2"));
+  }
+  currentArrStr = localStorage.getItem("currentArrStr"); */
+  //тест
+
   currentArr = JSON.parse(localStorage.getItem("currentArr"));
 
   volumeValue = localStorage.getItem("volumeValue");
