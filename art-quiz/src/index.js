@@ -989,10 +989,10 @@ function getLocalStorage() {
   currentArr = JSON.parse(localStorage.getItem("currentArr"));
 
   volumeValue = localStorage.getItem("volumeValue");
-  if (!volumeValue) volumeValue = 50;
+  if (!volumeValue || volumeValue === "undefined") volumeValue = 50;
 
   time = localStorage.getItem("time");
-  if (!time) {
+  if (!time || time === "undefined") {
     time = 20;
   }
   muted = JSON.parse(localStorage.getItem("muted"));

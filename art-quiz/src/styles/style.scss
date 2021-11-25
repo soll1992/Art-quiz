@@ -10,6 +10,7 @@ body {
     background-color: black;
     }
 .container {
+    width: 100%;
     height: 100%;
 }
 
@@ -69,6 +70,21 @@ body {
         opacity: 0.6;
     }
 }
+@media(max-width: 635px) {
+    .main {
+        .logo {
+            width: 220px;
+            height: 90px;
+        }
+        .categories-main-buttons {
+            display: block;
+        }
+        .artist-link {
+            margin-bottom: 20px;
+            margin-right: 0;
+        }
+    }
+}
 //Стили для настроек
 .settings {
     display: flex;
@@ -123,6 +139,12 @@ body {
     .volume-slider {
         width: 500px;
         margin-top: 30px; 
+    }
+
+    @media(max-width: 700px) {
+        .volume-slider {
+            width: 70%;
+        }
     }
     
     .slider {
@@ -300,6 +322,16 @@ body {
         margin-left: auto;
     }
 }
+@media(max-width:1350px) {
+    .categories {
+        .categories-body {
+            width: 80%;
+            padding-left: 10%;
+            padding-right: 10%;
+            background-color: black;
+        }
+    }
+}
 //Карточка вопросов схематично
 .result-body {
     width: 1340px;
@@ -338,6 +370,17 @@ body {
 
     .result-mask:hover {
         opacity: 1;
+    }
+}
+@media(max-width: 1400px) {
+    .result-body {
+        width: 100%;
+        padding-left: 10%;
+        padding-right: 10%;
+        background-color: black;
+    }
+    .result-painting {
+        margin-bottom: 10px;
     }
 }
 .questions {
@@ -392,14 +435,12 @@ body {
           opacity: 1;
         }
       }
-
-    .painting {
-        width: 70%;
-        margin: 0 auto;
-    }
     .painting-img {
         display: block;
-        height: 500px;
+        margin: 0 auto;
+        width: 400px;
+        height: 400px;
+        background-size: cover;
         background-repeat: no-repeat;
         transition: background-image 1s ease-in-out;
         animation-name: slidingstep1;
@@ -409,12 +450,17 @@ body {
     }
     .answer {
         display: flex;
+        justify-content: center;
         position: relative;
         left: -3000px;
         flex-wrap: wrap;
         width: 70%;
         margin: 0 auto;
         transition: 1s;
+    }
+
+    .answer-pic {
+        height: 70%;
     }
 
     .answer-active {
@@ -428,9 +474,24 @@ body {
         cursor: pointer;
     }
     .answer-image {
-        height: 290px;
-        background-size: contain;
+        height: auto;
+        background-size: cover;
         background-repeat: no-repeat;
+    }
+}
+
+@media(max-width: 905px) {
+    .questions {
+        .questions-body {
+            width: 100%;
+        }
+        .painting-img {
+            width: 300px;
+            height: 300px;
+        }
+        .answer-option {
+            min-width: 142px;
+        }
     }
 }
 
@@ -458,6 +519,26 @@ body {
     background-color: inherit;
     border: none;
     cursor: pointer;
+}
+
+@media(max-width: 850px) {
+    .logo {
+        margin-left: 5px;
+    }
+    .result-nav {
+        margin-left: 10px;
+    }
+    .nav {
+        margin-left: 10px;
+    }
+    .categories-nav {
+        margin-left: 20px;
+    }
+}
+@media(max-width: 450px) {
+    .logo {
+        display: none;
+    }
 }
 
 // Тут начинаются стили на модалку. Ее можно юзать для отображения результатов
@@ -652,5 +733,16 @@ body {
     text-decoration: none;
     margin-right: 40px;
     color: white;
+}
+@media(max-width: 635px) {
+    .rslogo {
+        margin-left: 5px;
+    }
+    .git {
+        margin-right: 10px;
+    }
+    .git-link {
+        margin-right: 5px;
+    }
 }
 
